@@ -27,30 +27,30 @@ class TextBook(Book):
 
     def __init__(self, name, author, isbn, publisher, price, courseware, exercise):
         super().__init__(name, author, isbn, publisher, price)
-        self.__courseware = courseware
-        self.__exercise = exercise
+        self._courseware = courseware
+        self._exercise = exercise
 
     def info(self):
         return "书名：%s\n作者：%s\nISBN：%s\n出版社：%s\n价格：%s\n课件：%s\n练习题：%s" % (
-            self._name, self._author, self._isbn, self._publisher, self._price, self.__courseware, self.__exercise)
+            self._name, self._author, self._isbn, self._publisher, self._price, self._courseware, self._exercise)
 
     def set_courseware(self, courseware: int):
         """设置课件数量"""
-        self.__courseware = courseware
+        self._courseware = courseware
 
     def get_courseware(self):
         """获取课件数量"""
-        return self.__courseware
+        return self._courseware
 
     @property
     def exercise(self):
         """获取练习题数量"""
-        return self.__exercise
+        return self._exercise
 
     @exercise.setter
     def exercise(self, exercise: int):
         """设置练习题数量"""
-        self.__exercise = exercise
+        self._exercise = exercise
 
 
 if __name__ == '__main__':
