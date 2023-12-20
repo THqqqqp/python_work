@@ -1,106 +1,72 @@
-"""
-    2023028107 李明睿
-    手机通讯录
-    作出图形化界面，实现对通讯录的增删改查操作。
-    点击联系人还可以查看具体信息
-    每个联系人有以下字段：姓名，电话，邮箱，地址
-"""
+class AddressBook:
+    def __init__(self):
+        self.contacts = {}
 
-import tkinter as tk
-from tkinter import messagebox
+    def add_contact(self, name, phone_number):
+        if name in self.contacts:
+            print("联系人已存在，无法添加。")
+        else:
+            self.contacts[name] = phone_number
+            print("联系人添加成功。")
 
-# 创建主窗口
-window = tk.Tk()
-window.title("手机通讯录")
-window.geometry("400x500")
+    def delete_contact(self, name):
+        if name in self.contacts:
+            del self.contacts[name]
+            print("联系人删除成功。")
+        else:
+            print("联系人不存在，无法删除。")
 
-# 创建列表框用于显示联系人
-contact_listbox = tk.Listbox(window, width=30)
-contact_listbox.pack(side=tk.LEFT, fill=tk.BOTH, padx=10, pady=10)
+    def update_contact(self, name, new_phone_number):
+        if name in self.contacts:
+            self.contacts[name] = new_phone_number
+            print("联系人更新成功。")
+        else:
+            print("联系人不存在，无法更新。")
 
-# 创建标签和文本框用于输入联系人信息
-info_frame = tk.Frame(window)
-info_frame.pack(side=tk.TOP, padx=10, pady=10)
+    def search_contact(self, name):
+        if name in self.contacts:
+            phone_number = self.contacts[name]
+            print(f"联系人：{name}，电话号码：{phone_number}")
+        else:
+            print("联系人不存在。")
 
-name_label = tk.Label(info_frame, text="姓名:")
-name_label.pack()
-name_entry = tk.Entry(info_frame)
-name_entry.pack()
+    def display_all_contacts(self):
+        if self.contacts:
+            print("所有联系人：")
+            for name, phone_number in self.contacts.items():
+                print(f"联系人：{name}，电话号码：{phone_number}")
+        else:
+            print("通讯录为空。")
 
-phone_label = tk.Label(info_frame, text="电话:")
-phone_label.pack()
-phone_entry = tk.Entry(info_frame)
-phone_entry.pack()
 
-email_label = tk.Label(info_frame, text="邮箱:")
-email_label.pack()
-email_entry = tk.Entry(info_frame)
-email_entry.pack()
+def main():
+    address_book = AddressBook()
 
-address_label = tk.Label(info_frame, text="地址:")
-address_label.pack()
-address_entry = tk.Entry(info_frame)
-address_entry.pack()
+    while True:
+        print("请选择功能：1. 添加联系人 2. 删除联系人 3. 更新联系人 4. 查询联系人 5. 查询所有联系人 6. 退出")
+        choice = input()
 
-# 定义按钮点击事件
-def add_contact():
-    name = name_entry.get()
-    phone = phone_entry.get()
-    email = email_entry.get()
-    address = address_entry.get()
-    contact_listbox.insert(tk.END, name)
-    contact_listbox.itemconfig(tk.END, fg="blue")
-    name_entry.delete(0, tk.END)
-    phone_entry.delete(0, tk.END)
-    email_entry.delete(0, tk.END)
-    address_entry.delete(0, tk.END)
+        if choice == "1":
+            name = input("请输入联系人姓名：")
+            phone_number = input("请输入联系人电话号码：")
+            address_book.add_contact(name, phone_number)
+        elif choice == "2":
+            name = input("请输入联系人姓名：")
+            address_book.delete_contact(name)
+        elif choice == "3":
+            name = input("请输入联系人姓名：")
+            new_phone_number = input("请输入新的电话号码：")
+            address_book.update_contact(name, new_phone_number)
+        elif choice == "4":
+            name = input("请输入联系人姓名：")
+            address_book.search_contact(name)
+        elif choice == "5":
+            address_book.display_all_contacts()
+        elif choice == "6":
+            break
+        else:
+            print("输入有误，请重新输入！")
 
-def delete_contact():
-    selected_index = contact_listbox.curselection()
-    if selected_index:
-        contact_listbox.delete(selected_index)
 
-def edit_contact():
-    selected_index = contact_listbox.curselection()
-    if selected_index:
-        name = name_entry.get()
-        phone = phone_entry.get()
-        email = email_entry.get()
-        address = address_entry.get()
-        contact_listbox.delete(selected_index)
-        contact_listbox.insert(selected_index, name)
-        contact_listbox.itemconfig(selected_index, fg="blue")
-        name_entry.delete(0, tk.END)
-        phone_entry.delete(0, tk.END)
-        email_entry.delete(0, tk.END)
-        address_entry.delete(0, tk.END)
-
-def show_contact():
-    selected_index = contact_listbox.curselection()
-    if selected_index:
-        name = contact_listbox.get(selected_index)
-        # 根据姓名获取联系人的其他信息，并显示在文本框中
-        phone = "联系电话"
-        email = "联系邮箱"
-        address = "联系地址"
-        messagebox.showinfo("联系人信息", f"姓名：{name}\n电话：{phone}\n邮箱：{email}\n地址：{address}")
-
-# 创建按钮框架
-button_frame = tk.Frame(window)
-button_frame.pack(side=tk.TOP, padx=10, pady=10)
-
-# 创建按钮
-add_button = tk.Button(button_frame, text="添加联系人", command=add_contact)
-add_button.pack(side=tk.TOP, padx=5, pady=5)
-
-delete_button = tk.Button(button_frame, text="删除联系人", command=delete_contact)
-delete_button.pack(side=tk.TOP, padx=5, pady=5)
-
-edit_button = tk.Button(button_frame, text="编辑联系人", command=edit_contact)
-edit_button.pack(side=tk.TOP, padx=5, pady=5)
-
-show_button = tk.Button(button_frame, text="查看联系人", command=show_contact)
-show_button.pack(side=tk.TOP, padx=5, pady=5)
-
-# 运行主循环
-window.mainloop()
+if __name__ == "__main__":
+    main()
