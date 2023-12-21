@@ -22,3 +22,4 @@ if __name__ == "__main__":
     传入1 返回 1          1
     '''
     print(digui(5))
+    print(1)
