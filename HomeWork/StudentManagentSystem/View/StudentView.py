@@ -22,12 +22,19 @@ class StudentView:
         print("5. 查询所有学生")
         print("0. 退出系统")
 
+    def get_all_students(self):
+        """
+        查询所有学生
+        """
+        return self.__student_service.get_all_students()
+
+    # todo：根据学生名获取学生列表
     def get_student_by_name(self):
         """
         查询学生
         """
         name = input("请输入学生姓名：")
-        return self.__student_service.get_student_by_name(name)['msg']
+        return self.__student_service.get_student_by_name(name)
 
     def add_student(self):
         """
@@ -43,6 +50,7 @@ class StudentView:
         student = Student(number, name, age, address, sex, phone)
         return self.__student_service.add_student(student)['msg']
 
+    # todo：根据学号删除学生
     def delete_student(self):
         """
         删除学生
@@ -55,6 +63,7 @@ class StudentView:
         else:
             print("未找到该学生")
 
+    # todo：根据学生类，更新学生
     def update_student(self):
         """
         更新学生信息
@@ -80,15 +89,6 @@ class StudentView:
         else:
             print("未找到该学生")
 
-    def get_all_students(self):
-        """
-        查询所有学生
-        """
-        result_list = self.__student_service.get_all_students()
-        if result_list['R'] == 'success':
-            return result_list['obj']
-        return result_list['msg']
-
     def run(self):
         """
         运行学生管理系统
@@ -97,7 +97,11 @@ class StudentView:
             self.show_menu()
             choice = input("请输入菜单选项：")
             if choice == "1":
-                print(self.get_student_by_name())
+                if self.get_student_by_name()['R'] == 'success':
+                    for student in self.get_student_by_name():
+                        print(student)
+                else:
+                    print(self.get_student_by_name()['msg'])
             elif choice == "2":
                 print(self.add_student())
             elif choice == "3":
@@ -105,8 +109,11 @@ class StudentView:
             elif choice == "4":
                 self.update_student()
             elif choice == "5":
-                for student in self.get_all_students():
-                    print(student)
+                if self.get_all_students()['R'] == 'success':
+                    for student in self.get_all_students():
+                        print(student)
+                else:
+                    print(self.get_all_students()['msg'])
             elif choice == "0":
                 print("退出系统")
                 break
