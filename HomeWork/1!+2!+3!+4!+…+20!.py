@@ -23,3 +23,4 @@ if __name__ == "__main__":
     '''
     print(digui(5))
     print(1)
+    print(2)
