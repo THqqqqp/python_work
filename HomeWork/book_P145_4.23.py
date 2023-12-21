@@ -5,7 +5,7 @@ import re
 
 domains = input("请输入域名：")
 
-regular = r"www\.(?P<domain>\w+)\.com"
+regular = r"www\.(?P<Pojo>\w+)\.com"
 
 matches = re.findall(regular, domains)
 

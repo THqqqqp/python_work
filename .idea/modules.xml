@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/HomeWork/StudentManagentSystem/.idea/StudentManagentSystem.iml" filepath="$PROJECT_DIR$/HomeWork/StudentManagentSystem/.idea/StudentManagentSystem.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/python_work.iml" filepath="$PROJECT_DIR$/.idea/python_work.iml" />
     </modules>
   </component>
