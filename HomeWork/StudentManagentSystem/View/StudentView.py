@@ -28,12 +28,10 @@ class StudentView:
         """
         return self.__student_service.get_all_students()
 
-    # todo：根据学生名获取学生列表
-    def get_student_by_name(self):
+    def get_student_by_name(self, name: str):
         """
         查询学生
         """
-        name = input("请输入学生姓名：")
         return self.__student_service.get_student_by_name(name)
 
     def add_student(self):
@@ -51,17 +49,11 @@ class StudentView:
         return self.__student_service.add_student(student)['msg']
 
     # todo：根据学号删除学生
-    def delete_student(self):
+    def delete_student_by_number(self, number: str):
         """
         删除学生
         """
-        name = input("请输入学生姓名：")
-        student = self.__student_service.get_student_by_name(name)
-        if student:
-            self.__student_service.delete_student(student)
-            print("学生删除成功")
-        else:
-            print("未找到该学生")
+        return self.__student_service.delete_student_by_number(number)
 
     # todo：根据学生类，更新学生
     def update_student(self):
@@ -97,21 +89,23 @@ class StudentView:
             self.show_menu()
             choice = input("请输入菜单选项：")
             if choice == "1":
-                if self.get_student_by_name()['R'] == 'success':
-                    for student in self.get_student_by_name():
+                name = input("请输入学生姓名：")
+                if self.get_student_by_name(name)['R'] == 'success':
+                    for student in self.get_student_by_name(name)['obj']:
                         print(student)
                 else:
-                    print(self.get_student_by_name()['msg'])
+                    print(self.get_student_by_name(name)['msg'])
             elif choice == "2":
                 print(self.add_student())
             elif choice == "3":
-                self.delete_student()
+                number = input("请输入学生学号：")
+                print(self.delete_student_by_number(number)['msg'])
             elif choice == "4":
                 self.update_student()
             elif choice == "5":
                 if self.get_all_students()['R'] == 'success':
-                    for student in self.get_all_students():
-                        print(student)
+                    for student in self.get_all_students()['obj']:
+                        print(student, end='\n')
                 else:
                     print(self.get_all_students()['msg'])
             elif choice == "0":

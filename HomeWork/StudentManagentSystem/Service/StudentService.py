@@ -23,9 +23,7 @@ class StudentService:
         :return: student: 学生对象
         """
         if not ListUtils.is_empty(self.__student_list):
-            for student in self.__student_list:
-                if student.name == name:
-                    return ResultUtils.success(student)
+            return ResultUtils.success(list(filter(lambda student: student.name == name, self.__student_list)))
         return ResultUtils.error("没有找到该学生")
 
     def get_student_by_number(self, number: int):
@@ -89,3 +87,15 @@ class StudentService:
             return ResultUtils.error('暂无学生信息')
         return ResultUtils.success(self.__student_list)
 
+    def delete_student_by_number(self, number: str):
+        """
+        根据学号删除学生
+        :return: Result
+        """
+        if not ListUtils.is_empty(self.__student_list):
+            for student in self.__student_list:
+                if student.number == number:
+                    self.__student_list.remove(student)
+                    return ResultUtils.success()
+                return ResultUtils.error('删除失败，不存在该学生')
+        return ResultUtils.error('删除失败，不存在该学生')
