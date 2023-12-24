@@ -18,12 +18,17 @@ class StudentView:
             return self.__student_service.get_all_students()
         return self.__student_service.get_all_students()
 
-    def get_student_by_name(self):
+    def get_student_by_name(self, name: str):
         """
-        查询学生
+        根据姓名查询学生
         """
-        student_name = input("请输入学生姓名：")
-        return self.__student_service.get_student_by_name(student_name)
+        return self.__student_service.get_student_by_name(name)
+
+    def get_student_by_number(self, number: int):
+        """
+        根据学号查询学生
+        """
+        return self.__student_service.get_student_by_number(number)
 
     def add_student(self):
         """
@@ -54,7 +59,6 @@ class StudentView:
         """
         number = int(input("请输入学生学号："))
         student = self.__student_service.get_student_by_number(number)
-        print(student)
         if student['R'] == 'success':
             # 获取新的学生信息
             new_number = str(number)

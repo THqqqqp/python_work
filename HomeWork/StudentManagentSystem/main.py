@@ -3,6 +3,7 @@
 """
 from View.StudentView import StudentView
 from View.MenuView import MenuView
+from Utils.NumberUtils import is_number
 
 
 def run():
@@ -16,8 +17,20 @@ def run():
         if choice == "1":
             # 查询学生代码
             # todo：需要重载用户输入，int为学号，str为姓名
-            student_list = student_view.get_student_by_name()
-            print(student_list)
+            value = input("请输入姓名或者学号：")
+            if not is_number(value):
+                student_list = student_view.get_student_by_name(value)
+                if student_list['R'] == 'success':
+                    for student in student_list['obj']:
+                        print(student)
+                else:
+                    print(student_list['msg'])
+            else:
+                student_list = student_view.get_student_by_number(int(value))
+                if student_list['R'] == 'success':
+                    print(student_list['obj'])
+                else:
+                    print(student_list['msg'])
         elif choice == "2":
             # 添加学生代码
             result = student_view.add_student()
@@ -43,7 +56,6 @@ def run():
             break
         else:
             print("无效选项，请重新输入")
-        print("所有学生：", student_view.get_all_students())
 
 
 if __name__ == '__main__':

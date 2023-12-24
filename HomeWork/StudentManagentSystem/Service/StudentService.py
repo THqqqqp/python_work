@@ -6,7 +6,6 @@ from Pojo import Student
 from Utils.ListUtils import ListUtils
 from Utils.ResultUtils import ResultUtils
 
-
 class StudentService:
     """
     学生服务层
@@ -23,7 +22,10 @@ class StudentService:
         :return: student: 学生对象
         """
         if not ListUtils.is_empty(self.__student_list):
-            return ResultUtils.success(list(filter(lambda student: student.name == name, self.__student_list)))
+            result = list(filter(lambda student: student.name == name, self.__student_list))
+            if not ListUtils.is_empty(result):
+                return ResultUtils.success(result)
+            return ResultUtils.error('没有找到该学生')
         return ResultUtils.error("没有找到该学生")
 
     def get_student_by_number(self, number: int):
@@ -82,8 +84,6 @@ class StudentService:
         if not ListUtils.is_empty(self.__student_list):
             for index, s in enumerate(self.__student_list):
                 if int(s.number) == int(new_student.number):
-                    # 这里把student替换成new_student
-                    print("number相等，进行替换")
                     s.name = new_student.name
                     s.sex = new_student.sex
                     s.age = new_student.age
